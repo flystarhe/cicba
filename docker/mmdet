@@ -1,0 +1,19 @@
+# https://hub.docker.com/r/flystarhe/simplecv/tags
+FROM flystarhe/simplecv:mmdet2.7
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        openssh-server \
+        curl \
+        git && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip install notebook tornado && \
+    conda clean -ya
+
+WORKDIR /workspace
+RUN git clone https://github.com/flystarhe/cicba.git cicba && \
+    curl -fsSL -o /workspace/cicba/detection/faster_rcnn_r101_fpn_2x_coco.pth http://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r101_fpn_2x_coco/faster_rcnn_r101_fpn_2x_coco_bbox_mAP-0.398_20200504_210455-1d2dac9c.pth
+
+WORKDIR /workspace/cicba
+ENTRYPOINT ["/bin/bash", "docker/entrypoint.sh"]
