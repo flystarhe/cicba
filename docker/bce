@@ -3,7 +3,6 @@ FROM continuumio/anaconda3:2020.11
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates \
-        openssh-server \
         curl \
         git && \
     rm -rf /var/lib/apt/lists/*

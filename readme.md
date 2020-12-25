@@ -8,3 +8,4 @@ Date: 2020-12-23
 * [http://localhost:7003/dehaze](#) - `dehaze/readme.md` - 去雾处理
 * [http://localhost:7004/news_summary](#) - `news_summary/readme.md` - 新闻摘要
 * [http://localhost:7005/detection](#) - `detection/readme.md` - 目标检测
+* [http://localhost:7005/segmentation](#) - `detection/readme.md` - 实例分割
