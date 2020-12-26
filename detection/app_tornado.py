@@ -1,4 +1,5 @@
 import base64
+import cv2 as cv
 import mmcv
 import numpy as np
 import os
@@ -24,10 +25,6 @@ names = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "
          "potted plant", "bed", "dining table", "toilet", "tv", "laptop", "mouse", "remote", "keyboard", "cell phone",
          "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors", "teddy bear",
          "hair drier", "toothbrush"]
-
-
-def format_bbox(bbox, label):
-    return [dict(xyxy=[x1, y1, x2, y2], label=label, score=s) for x1, y1, x2, y2, s in bbox.tolist()]
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -65,24 +62,24 @@ class MainHandler(tornado.web.RequestHandler):
             labels = np.concatenate(labels)
 
             inds = np.where(bboxes[:, -1] > score_thr)[0]
-            bbox_result = bbox_result[inds].tolist()
-            labels = labels[inds].tolist()
+            bboxes, labels = bboxes[inds].tolist(), labels[inds].tolist()
 
             bbox_result = [
-                dict(xyxy=[x1, y1, x2, y2], label=label, score=s)
-                for (x1, y1, x2, y2, s), label in enumerate(bbox_result, labels)
+                dict(xyxy=[x1, y1, x2, y2], label=names[label], score=s)
+                for (x1, y1, x2, y2, s), label in enumerate(bboxes, labels)
             ]
 
             if "seg" == mode and segm_result is not None:
                 segms = mmcv.concat_list(segm_result)
-                masks = []
+                mask_result = []
                 for i in inds:
                     sg = segms[i]
                     if isinstance(sg, torch.Tensor):
                         sg = sg.detach().cpu().numpy()
-                    mask = sg.astype(bool)
-                    masks.append(mask)
-                data = {"bbox": bbox_result, "mask": masks}
+                    contours = cv.findContours(sg.astype("uint8"), cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)[0]
+                    contours = [x.squeeze().tolist() for x in contours]
+                    mask_result.append(contours)
+                data = {"bbox": bbox_result, "mask": mask_result}
             else:
                 data = {"bbox": bbox_result}
 

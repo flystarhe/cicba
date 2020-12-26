@@ -12,9 +12,9 @@ RUN pip install notebook tornado && \
 
 WORKDIR /workspace
 RUN git clone https://github.com/flystarhe/cicba.git cicba && \
+    conda install -y conda-build && conda-develop /workspace/cicba /usr/src/mmdetection && \
     curl -fsSL -o /workspace/cicba/detection/faster_rcnn_x101_32x4d_fpn_2x_coco.pth http://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_x101_32x4d_fpn_2x_coco/faster_rcnn_x101_32x4d_fpn_2x_coco_bbox_mAP-0.412_20200506_041400-64a12c0b.pth && \
-    curl -fsSL -o /workspace/cicba/detection/mask_rcnn_x101_32x4d_fpn_2x_coco.pth http://download.openmmlab.com/mmdetection/v2.0/mask_rcnn/mask_rcnn_x101_32x4d_fpn_2x_coco/mask_rcnn_x101_32x4d_fpn_2x_coco_bbox_mAP-0.422__segm_mAP-0.378_20200506_004702-faef898c.pth && \
-    conda-develop /usr/src/mmdetection
+    curl -fsSL -o /workspace/cicba/detection/mask_rcnn_x101_32x4d_fpn_2x_coco.pth http://download.openmmlab.com/mmdetection/v2.0/mask_rcnn/mask_rcnn_x101_32x4d_fpn_2x_coco/mask_rcnn_x101_32x4d_fpn_2x_coco_bbox_mAP-0.422__segm_mAP-0.378_20200506_004702-faef898c.pth
 
 WORKDIR /workspace/cicba
 ENTRYPOINT ["/bin/bash", "docker/entrypoint.sh"]

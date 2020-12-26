@@ -65,7 +65,7 @@ print(response.json())
         ],
         "mask":
         [
-            contour1,
+            [[[19, 32], [19, 138], [200, 138], [200, 32]], ...],  # contours, contour is [[x, y], [x, y], ...]
             ...
         ]
     }
