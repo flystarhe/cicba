@@ -26,7 +26,7 @@ names: ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 't
 ```python
 import requests
 
-vals = {"image_path": "test.png", "score_thr": 0.3, "mode": "seg"}
+vals = {"image_path": "/workspace/images/test.png", "score_thr": 0.3, "mode": "seg"}
 url = "http://localhost:7005/detection"
 response = requests.post(url, data=vals)
 print(response.json())
@@ -43,9 +43,9 @@ print(response.json())
     "status": 0,
     "data": 
     {
-        "bbox": 
+        "bbox":
         [
-            {"xyxy": [100, 200, 200, 400], "label": "car", "socre": 0.9},
+            {"xyxy": [100, 200, 200, 400], "label": "car", "score": 0.9},
             ...
         ]
     }
@@ -60,7 +60,7 @@ print(response.json())
     {
         "bbox":
         [
-            {"xyxy": [100, 200, 200, 400], "label": "car", "socre": 0.9},
+            {"xyxy": [100, 200, 200, 400], "label": "car", "score": 0.9},
             ...
         ],
         "mask":

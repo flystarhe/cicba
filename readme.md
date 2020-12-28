@@ -1,7 +1,7 @@
-# CiCBA-Phase1
-Date: 2020-12-23
+# CiCBA
 
-## Apps
+## CiCBA-Phase1
+Date: 2020-12-23
 
 * [http://localhost:7001/bankcard](#) - `bankcard/readme.md` - 银行卡识别
 * [http://localhost:7002/idcard](#) - `idcard/readme.md` - 身份证识别

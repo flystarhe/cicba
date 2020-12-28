@@ -16,16 +16,19 @@ class IdCardHandler(tornado.web.RequestHandler):
         global G_AK, G_SK
         try:
             params = self.request.body_arguments
+            err_str = "Missing argument: " + ",".join(params.keys())
+            assert "image_path" in params or "image_data" in params, err_str
+            assert "card_side" in params, err_str
+
             if "image_path" in params:
                 image_path = params["image_path"][-1].decode("utf-8")
                 card_side = params["card_side"][-1].decode("utf-8")
                 code, data = for_image_path(image_path, card_side, G_AK, G_SK)
-            elif "image_data" in params:
+            else:
                 image_data = params["image_data"][-1]
                 card_side = params["card_side"][-1].decode("utf-8")
                 code, data = for_image_data(image_data, card_side, G_AK, G_SK)
-            else:
-                code, data = 1, "Missing argument: " + ",".join(params.keys())
+
             res = {"status": code, "data": data}
         except Exception:
             err = traceback.format_exc()

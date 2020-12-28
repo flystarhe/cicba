@@ -12,7 +12,7 @@
 ```python
 import requests
 
-vals = {"image_path": "test.png"}
+vals = {"image_path": "/workspace/images/test.png"}
 url = "http://localhost:7001/bankcard"
 response = requests.post(url, data=vals)
 print(response.json())

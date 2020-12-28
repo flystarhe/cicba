@@ -34,15 +34,17 @@ class MainHandler(tornado.web.RequestHandler):
             global model, names
 
             params = self.request.body_arguments
+            err_str = "Missing argument: " + ",".join(params.keys())
+            assert "image_path" in params or "image_data" in params, err_str
+            assert "score_thr" in params and "mode" in params, err_str
+
             if "image_path" in params:
                 image_path = params["image_path"][-1].decode("utf-8")
                 image_data = mmcv.imread(image_path)
-            elif "image_data" in params:
+            else:
                 image_data = params["image_data"][-1]
                 image_data = base64.b64decode(image_data)
                 image_data = mmcv.imread(BytesIO(image_data))
-            else:
-                raise Exception("Missing argument: " + ",".join(params.keys()))
 
             score_thr = params["score_thr"][-1].decode("utf-8")
             mode = params["mode"][-1].decode("utf-8")

@@ -15,6 +15,9 @@ class NewsSummaryHandler(tornado.web.RequestHandler):
         global G_AK, G_SK
         try:
             params = self.request.body_arguments
+            err_str = "Missing argument: " + ",".join(params.keys())
+            assert "title" in params and "content" in params and "max_summary_len" in params, err_str
+
             title = params["title"][-1].decode("utf-8")
             content = params["content"][-1].decode("utf-8")
             max_summary_len = params["max_summary_len"][-1].decode("utf-8")

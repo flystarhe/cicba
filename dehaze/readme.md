@@ -13,7 +13,7 @@
 import base64
 import requests
 
-vals = {"image_path": "test.png"}
+vals = {"image_path": "/workspace/images/test.png"}
 url = "http://localhost:7003/dehaze"
 response = requests.post(url, data=vals)
 data = response.json()
@@ -23,7 +23,7 @@ if data["status"] != "0":
     print(data)
 else:
     img_data = base64.b64decode(data["data"])
-    with open("test_out.jpg", "wb") as f:
+    with open("/workspace/images/test_out.jpg", "wb") as f:
         f.write(img_data)
 
 # Two
