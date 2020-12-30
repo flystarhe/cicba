@@ -22,7 +22,7 @@ def draw_bbox(bbox_result, img):
     for bbox in bbox_result:
         x1, y1, x2, y2 = map(int, bbox["xyxy"])
         cv.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0))
-        cv.putText(img, "{}:{:.2f}".format(bbox["label", bbox["score"]]),
+        cv.putText(img, "{}:{:.2f}".format(bbox["label"], bbox["score"]),
                    (x1, y1), cv.FONT_HERSHEY_COMPLEX, 1.0, (0, 255, 0))
 
 

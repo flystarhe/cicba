@@ -68,7 +68,7 @@ class MainHandler(tornado.web.RequestHandler):
 
             bbox_result = [
                 dict(xyxy=[x1, y1, x2, y2], label=names[label], score=s)
-                for (x1, y1, x2, y2, s), label in enumerate(bboxes, labels)
+                for (x1, y1, x2, y2, s), label in zip(bboxes, labels)
             ]
 
             if "seg" == mode and segm_result is not None:
