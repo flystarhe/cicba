@@ -13,8 +13,8 @@ from mmdet.apis import init_detector, inference_detector
 
 
 os.environ["MKL_THREADING_LAYER"] = "GNU"
-config_file = "mask_rcnn_x101_32x4d_fpn_2x_coco.py"
-checkpoint_file = "mask_rcnn_x101_32x4d_fpn_2x_coco.pth"
+config_file = "/workspace/cicba/detection/mask_rcnn_x101_32x4d_fpn_2x_coco.py"
+checkpoint_file = "/workspace/cicba/detection/mask_rcnn_x101_32x4d_fpn_2x_coco.pth"
 model = init_detector(config_file, checkpoint_file, device="cuda:0")
 names = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light",
          "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow",
