@@ -1,10 +1,7 @@
 # https://hub.docker.com/r/continuumio/anaconda3/tags
 FROM continuumio/anaconda3:2020.11
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates \
-        curl \
-        git && \
+RUN apt-get update && apt-get install -y --no-install-recommends curl git vim && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install notebook tornado && \
@@ -12,7 +9,9 @@ RUN pip install notebook tornado && \
 
 WORKDIR /workspace
 RUN git clone https://github.com/flystarhe/cicba.git cicba && \
-    conda install -y conda-build && conda-develop /workspace/cicba
+    conda install -y conda-build && \
+    conda-develop /workspace/cicba && \
+    conda clean -ya
 
 WORKDIR /workspace/cicba
 ENTRYPOINT ["/bin/bash", "docker/entrypoint.sh"]

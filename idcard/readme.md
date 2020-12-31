@@ -15,7 +15,7 @@
 ```python
 import requests
 
-vals = {"image_path": "/workspace/images/test.png", "card_side": "front"}
+vals = {"image_path": "/workspace/cicba/images/idcard_01.jpg", "card_side": "front"}
 url = "http://localhost:7002/idcard"
 response = requests.post(url, data=vals)
 print(response.json())

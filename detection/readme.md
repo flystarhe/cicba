@@ -26,7 +26,7 @@ names: ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 't
 ```python
 import requests
 
-vals = {"image_path": "/workspace/images/test.png", "score_thr": 0.3, "mode": "seg"}
+vals = {"image_path": "/workspace/cicba/images/detection_01.jpg", "score_thr": 0.5, "mode": "det"}
 url = "http://localhost:7005/detection"
 response = requests.post(url, data=vals)
 print(response.json())

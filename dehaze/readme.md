@@ -13,7 +13,7 @@
 import base64
 import requests
 
-vals = {"image_path": "/workspace/images/test.png"}
+vals = {"image_path": "/workspace/cicba/images/dehaze_01.jpg"}
 url = "http://localhost:7003/dehaze"
 response = requests.post(url, data=vals)
 data = response.json()
