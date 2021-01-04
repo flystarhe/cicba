@@ -1,6 +1,11 @@
 # https://hub.docker.com/r/continuumio/anaconda3/tags
 FROM continuumio/anaconda3:2020.11
 
+RUN sed -i 's/http:\/\/archive.ubuntu.com/https:\/\/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main && \
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free && \
+    pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
 RUN apt-get update && apt-get install -y --no-install-recommends curl git vim && \
     rm -rf /var/lib/apt/lists/*
 
