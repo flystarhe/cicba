@@ -1,6 +1,8 @@
 # https://hub.docker.com/r/continuumio/anaconda3/tags
 FROM continuumio/anaconda3:2020.11
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN sed -i 's/http:\/\/archive.ubuntu.com/https:\/\/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
     sed -i 's/http:\/\/security.ubuntu.com/https:\/\/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
     sed -i 's/http:\/\/security.debian.org/https:\/\/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
