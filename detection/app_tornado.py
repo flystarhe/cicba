@@ -3,6 +3,8 @@ import cv2 as cv
 import mmcv
 import numpy as np
 import os
+import re
+import requests
 import sys
 import torch
 import tornado.ioloop
@@ -10,6 +12,24 @@ import tornado.web
 import traceback
 from io import BytesIO
 from mmdet.apis import init_detector, inference_detector
+
+
+URL_REGEX = re.compile(r"http://|https://|ftp://")
+
+
+def imread(uri):
+    if isinstance(uri, str):
+        if URL_REGEX.match(uri):
+            buffer = requests.get(uri).content
+            nparr = np.frombuffer(buffer, np.uint8)
+            return cv.imdecode(nparr, 1)
+        return cv.imread(uri, 1)
+
+    if isinstance(uri, bytes):
+        nparr = np.frombuffer(uri, np.uint8)
+        return cv.imdecode(nparr, 1)
+
+    raise Exception("uri type error: {}".format(type(uri)))
 
 
 os.environ["MKL_THREADING_LAYER"] = "GNU"
@@ -40,11 +60,11 @@ class MainHandler(tornado.web.RequestHandler):
 
             if "image_path" in params:
                 image_path = params["image_path"][-1].decode("utf-8")
-                image_data = mmcv.imread(image_path)
+                image_data = imread(image_path)
             else:
                 image_data = params["image_data"][-1]
                 image_data = base64.b64decode(image_data)
-                image_data = mmcv.imread(BytesIO(image_data))
+                image_data = imread(image_data)
 
             score_thr = params["score_thr"][-1].decode("utf-8")
             mode = params["mode"][-1].decode("utf-8")
