@@ -27,6 +27,9 @@ docker run -d -p 7004:9000 --ipc=host --name news_summary -v /workspace/images:/
 ## detection (mmdet2/detection - 目标检测/本地gpu)
 ```
 docker run --gpus device=0 -d -p 7005:9000 --ipc=host --name detection -v /workspace/images:/workspace/images flystarhe/cicba:mmdet detection 9000
+docker run --gpus device=0 -d -p 8000:9000 --ipc=host --name det_test -v /workspace/images:/workspace/images flystarhe/cicba:mmdet dev
+docker run --gpus device=0 -d -p 8001:9000 --ipc=host --name det_faster -v /workspace/images:/workspace/images flystarhe/cicba:mmdet detection 9000 faster_rcnn_x101_32x4d_fpn_2x_coco
+docker run --gpus device=0 -d -p 8002:9000 --ipc=host --name det_mask -v /workspace/images:/workspace/images flystarhe/cicba:mmdet detection 9000 mask_rcnn_x101_32x4d_fpn_2x_coco
 ```
 
 ## segmentation (mmdet2/segmentation - 实例分割/本地gpu)

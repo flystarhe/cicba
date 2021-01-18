@@ -12,6 +12,7 @@ import tornado.web
 import traceback
 from io import BytesIO
 from mmdet.apis import init_detector, inference_detector
+from detection.utils import image_show
 
 
 URL_REGEX = re.compile(r"http://|https://|ftp://")
@@ -33,9 +34,9 @@ def imread(uri):
 
 
 os.environ["MKL_THREADING_LAYER"] = "GNU"
-config_file = "/workspace/cicba/detection/mask_rcnn_x101_32x4d_fpn_2x_coco.py"
-checkpoint_file = "/workspace/cicba/detection/mask_rcnn_x101_32x4d_fpn_2x_coco.pth"
-model = init_detector(config_file, checkpoint_file, device="cuda:0")
+
+
+model = None
 names = ["person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat", "traffic light",
          "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse", "sheep", "cow",
          "elephant", "bear", "zebra", "giraffe", "backpack", "umbrella", "handbag", "tie", "suitcase", "frisbee",
@@ -90,6 +91,7 @@ class MainHandler(tornado.web.RequestHandler):
                 dict(xyxy=[x1, y1, x2, y2], label=names[label], score=s)
                 for (x1, y1, x2, y2, s), label in zip(bboxes, labels)
             ]
+            mask_result = None
 
             if "seg" == mode and segm_result is not None:
                 segms = mmcv.concat_list(segm_result)
@@ -104,6 +106,9 @@ class MainHandler(tornado.web.RequestHandler):
                 data = {"bbox": bbox_result, "mask": mask_result}
             else:
                 data = {"bbox": bbox_result}
+
+            if "show" in params:
+                image_show("/workspace/images/results", image_data, bbox_result, mask_result)
 
             res = {"status": 0, "data": data}
         except Exception:
@@ -122,4 +127,14 @@ def make_app():
 if __name__ == "__main__":
     app = make_app()
     app.listen(sys.argv[1])
+
+    if len(sys.argv) >= 3:
+        config_file = "/workspace/cicba/detection/{}.py".format(sys.argv[2])
+        checkpoint_file = "/workspace/cicba/detection/{}.pth".format(sys.argv[2])
+    else:
+        config_file = "/workspace/cicba/detection/mask_rcnn_x101_32x4d_fpn_2x_coco.py"
+        checkpoint_file = "/workspace/cicba/detection/mask_rcnn_x101_32x4d_fpn_2x_coco.pth"
+
+    model = init_detector(config_file, checkpoint_file, device="cuda:0")
+
     tornado.ioloop.IOLoop.current().start()

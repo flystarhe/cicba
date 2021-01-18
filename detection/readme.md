@@ -21,6 +21,7 @@ names: ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 't
 * `image_data (str)` - base64编码后的图片数据，要求编码后大小不超过4M，支持jpg/jpeg/png/bmp格式。
 * `score_thr (float)` - 取值范围为`[0., 1.]`，置信度低于`score_thr`的检测结果会被忽略，
 * `mode (str)` - `det`表示执行目标检测任务，`seg`表示执行实例分割任务。
+* `show (str)` - 绘制预测结果到`/workspace/images/results`。
 
 示例代码：
 ```python

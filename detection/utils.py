@@ -33,13 +33,12 @@ def draw_polylines(mask_result, img):
             cv.polylines(img, pts, True, (255, 0, 0))
 
 
-def image_show(out_dir, img_path, bbox_result, mask_result):
-    img = cv.imread(img_path, 1)
+def image_show(out_dir, img, bbox_result, mask_result):
+    if isinstance(img, str):
+        img = cv.imread(img, 1)
     os.makedirs(out_dir, exist_ok=True)
 
     draw_bbox(bbox_result, img)
     if mask_result is not None:
         draw_polylines(mask_result, img)
-
-    file_name = Path(img_path).name
-    cv.imwrite(os.path.join(out_dir, file_name), img)
+    cv.imwrite(os.path.join(out_dir, "out.png"), img)
