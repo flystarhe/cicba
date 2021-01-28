@@ -36,3 +36,8 @@ docker run --gpus device=0 -d -p 8002:9000 --ipc=host --name det_mask -v /worksp
 ```
 docker run --gpus device=0 -d -p 7006:9000 --ipc=host --name segmentation -v /workspace/images:/workspace/images flystarhe/cicba:mmdet segmentation 9000
 ```
+
+## business (ocr_cards/business - 200次/天免费 - 暂不支持购买)
+```
+docker run -d -p 7007:9000 --ipc=host --name business -v /workspace/images:/workspace/images flystarhe/cicba:bce business 9000 doMFkEYsD3eVKi2O8QuyiPlH wPQAue6Be36Ww6fk9mY6fAFygsdmgl4p
+```
